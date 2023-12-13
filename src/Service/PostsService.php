@@ -60,13 +60,15 @@ class PostsService
   public function getExternalPosts()
   {
     $url = $this->baseUrl . $this->params->get('api.posts');
-    return $this->getExternalData($url);
+    //return $this->getExternalData($url);
+    return $this->getInternalData('posts');
   }
 
   public function getExternalUsers()
   {
     $url = $this->baseUrl . $this->params->get('api.users');
-    return $this->getExternalData($url);
+    //return $this->getExternalData($url);
+    return $this->getInternalData('users');
   }
 
   public function storeExternalPosts(array $posts): bool
@@ -153,5 +155,11 @@ class PostsService
     }
 
     return false;
+  }
+
+  private function getInternalData($name): array
+  {
+    $jsonStr = file_get_contents(__DIR__ . "/../../".$name.".json");
+    return json_decode($jsonStr, true);
   }
 }

@@ -8,7 +8,7 @@
       let subdir = '{{ subdir }}';
       function deletePost(id) {
         fetch(`${subdir}/edit-posts/${id}`, {
-          method: "DELETE",
+          method: "GET",
           headers: {
             "Content-type": "application/json; charset=UTF-8"
           }
@@ -23,40 +23,6 @@
           }
         });
       }
-
-      function clearData() {
-        fetch(`${subdir}/edit-posts/clear`, {
-          method: "DELETE",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if (json.success) {
-              location.reload();
-            } else {
-              alert("Something went wrong");
-            }
-          });
-      }
-
-      function downloadData() {
-        fetch(`${subdir}/edit-posts/download`, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if (json.success) {
-              location.reload();
-            } else {
-              alert("Something went wrong");
-            }
-          });
-      }
     </script>
 {% endblock %}
 
@@ -64,10 +30,10 @@
     <div class="container">
       <div class="row text-center m-5">
         <div class="col-12 col-md-6">
-            <button class="btn btn-primary" onclick="downloadData()">Refresh list</button>
+            <a href="./edit-posts/download" class="btn btn-primary">Refresh list</a>
         </div>
         <div class="col-12 col-md-6">
-            <button class="btn btn-danger mt-3 mt-md-0" onclick="clearData()">Clear list</button>
+            <a href="./edit-posts/clear" class="btn btn-danger mt-3 mt-md-0">Clear list</a>
         </div>
       </div>
         <div class="row text-center">

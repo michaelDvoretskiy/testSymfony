@@ -34,7 +34,7 @@ class PostController extends AbstractController
     return $this->render('posts.html.twig', ['posts' => $posts, 'subdir' => $subdir]);
   }
 
-  #[Route('/posts', name: 'app_posts')]
+  #[Route('/posts', methods: ['GET'], name: 'app_posts')]
   public function getPostsApi(SerializerInterface $serializer): JsonResponse
   {
     $posts = $this->postsService->getPosts();
@@ -44,22 +44,22 @@ class PostController extends AbstractController
     return new JsonResponse($jsonContent, 200, [], true);
   }
 
-  #[Route('/edit-posts/{sourceId}', methods: ['DELETE'], name: 'app_delete_post', requirements: ['sourceId' => '\d+'])]
+  #[Route('/edit-posts/{sourceId}', methods: ['GET'], name: 'app_delete_post', requirements: ['sourceId' => '\d+'])]
   public function deletePost(int $sourceId): JsonResponse
   {
     $res = $this->postsService->removePost($sourceId);
     return $this->json(['success' => $res]);
   }
 
-  #[Route('/edit-posts/clear', methods: ['DELETE'], name: 'app_clear_posts')]
-  public function clearPosts(): JsonResponse
+  #[Route('/edit-posts/clear', methods: ['GET'], name: 'app_clear_posts')]
+  public function clearPosts(): RedirectResponse
   {
     $res = $this->postsService->clearPosts();
-    return $this->json(['success' => $res]);
+    return $this->redirectToLista();
   }
 
-  #[Route('/edit-posts/download', methods: ['POST'], name: 'app_download_posts')]
-  public function downloadPosts(): JsonResponse
+  #[Route('/edit-posts/download', methods: ['GET'], name: 'app_download_posts')]
+  public function downloadPosts(): RedirectResponse
   {
     $users = $this->postsService->getExternalUsers();
     if (!$users) {
@@ -80,7 +80,7 @@ class PostController extends AbstractController
     if (!$res) {
       return $this->json(['success' => false]);
     }
-
-    return $this->json(['success' => true]);
+    
+    return $this->redirectToLista();
   }
 }
