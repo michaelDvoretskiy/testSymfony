@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Service\PostsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,10 +27,11 @@ class PostController extends AbstractController
   }
 
   #[Route('/lista', name: 'app_lista')]
-  public function getPosts(): Response
+  public function getPosts(ParameterBagInterface $params): Response
   {
+    $subdir = $params->get('api.sub-dir');
     $posts = $this->postsService->getPosts();
-    return $this->render('posts.html.twig', ['posts' => $posts]);
+    return $this->render('posts.html.twig', ['posts' => $posts, 'subdir' => $subdir]);
   }
 
   #[Route('/posts', name: 'app_posts')]
@@ -42,21 +44,21 @@ class PostController extends AbstractController
     return new JsonResponse($jsonContent, 200, [], true);
   }
 
-  #[Route('/posts/{sourceId}', methods: ['DELETE'], name: 'app_delete_post', requirements: ['sourceId' => '\d+'])]
+  #[Route('/edit-posts/{sourceId}', methods: ['DELETE'], name: 'app_delete_post', requirements: ['sourceId' => '\d+'])]
   public function deletePost(int $sourceId): JsonResponse
   {
     $res = $this->postsService->removePost($sourceId);
     return $this->json(['success' => $res]);
   }
 
-  #[Route('/posts/clear', methods: ['DELETE'], name: 'app_clear_posts')]
+  #[Route('/edit-posts/clear', methods: ['DELETE'], name: 'app_clear_posts')]
   public function clearPosts(): JsonResponse
   {
     $res = $this->postsService->clearPosts();
     return $this->json(['success' => $res]);
   }
 
-  #[Route('/posts/download', methods: ['POST'], name: 'app_download_posts')]
+  #[Route('/edit-posts/download', methods: ['POST'], name: 'app_download_posts')]
   public function downloadPosts(): JsonResponse
   {
     $users = $this->postsService->getExternalUsers();

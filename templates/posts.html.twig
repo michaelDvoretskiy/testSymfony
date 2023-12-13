@@ -5,8 +5,9 @@
 
 {% block javascripts %}
     <script>
+      let subdir = '{{ subdir }}';
       function deletePost(id) {
-        fetch(`/posts/${id}`, {
+        fetch(`${subdir}/edit-posts/${id}`, {
           method: "DELETE",
           headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -24,7 +25,7 @@
       }
 
       function clearData() {
-        fetch(`/posts/clear`, {
+        fetch(`${subdir}/edit-posts/clear`, {
           method: "DELETE",
           headers: {
             "Content-type": "application/json; charset=UTF-8"
@@ -41,7 +42,7 @@
       }
 
       function downloadData() {
-        fetch(`/posts/download`, {
+        fetch(`${subdir}/edit-posts/download`, {
           method: "POST",
           headers: {
             "Content-type": "application/json; charset=UTF-8"
