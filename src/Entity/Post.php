@@ -6,11 +6,9 @@ use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[UniqueEntity('sourceId')]
-
+#[ORM\Table(name: "symf_test_posts")]
 class Post
 {
     #[ORM\Id]

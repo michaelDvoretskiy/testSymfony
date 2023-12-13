@@ -1,0 +1,7 @@
+{% if err is not empty %}
+    <div class="invalid-feedback" style="display: block;">
+        {% for error in err %}
+            <span>{{ error.message }}</span>
+        {% endfor %}
+    </div>
+{% endif %}

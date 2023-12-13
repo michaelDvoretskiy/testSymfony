@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Service\PostsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -16,6 +17,12 @@ class PostController extends AbstractController
     private PostsService $postsService
   )
   {
+  }
+
+  #[Route('/', name: 'app_root')]
+  public function redirectToLista(): RedirectResponse
+  {
+    return $this->redirectToRoute('app_lista');
   }
 
   #[Route('/lista', name: 'app_lista')]

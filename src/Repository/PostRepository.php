@@ -23,6 +23,6 @@ class PostRepository extends ServiceEntityRepository
     
     public  function clearPosts() {
         $conn = $this->getEntityManager()->getConnection();
-        $conn->executeStatement('delete from post');
+        $conn->executeStatement('delete from symf_test_posts');
     }
 }
